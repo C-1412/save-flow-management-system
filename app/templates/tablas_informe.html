@@ -1,0 +1,94 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block head_list %}
+    <script src="{% static 'informe/js/list.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-search"></i>
+                Informe de Ventas
+            </h3>
+        </div>
+
+        <div class="card-footer bg-transparent">
+            {% block buttons_list %}
+            <a href="{% url 'erp:informe_tablas_pdf' %}?mes={{ selected_mes }}&anio={{ selected_anio }}" class="btn btn-danger">
+                <i class="fas fa-file-pdf"></i> Exportar PDF
+            </a>
+            {% endblock %}
+        </div>
+
+        <div class="card-body">
+            <form method="get" class="form-inline mb-4">
+                <div class="form-group mb-2">
+                    <label for="mes" class="mr-2">Mes:</label>
+                    <select name="mes" id="mes" class="form-control">
+                        {% for value, nombre in available_months %}
+                            <option value="{{ value }}" {% if value == selected_mes %}selected{% endif %}>{{ nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="anio" class="mr-2">Año:</label>
+                    <select name="anio" id="anio" class="form-control">
+                        {% for year in available_years %}
+                            <option value="{{ year }}" {% if year == selected_anio %}selected{% endif %}>{{ year }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2 mr-2">Filtrar</button>
+            </form>
+
+            <table class="table table-bordered table-striped mt-4" id="data">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        {% for label in week_labels %}
+                            <th>{{ label }}</th>
+                        {% endfor %}
+                        <th>Total Vendidos</th>
+                        <th>Total Ganado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for prod in data_products %}
+                        <tr>
+                            <td>{{ prod.name }}</td>
+                            <td>{{ prod.price }}</td>
+                            {% for venta in prod.weeks %}
+                                <td>{{ venta }}</td>
+                            {% endfor %}
+                            <td>{{ prod.total_sold }}</td>
+                            <td>{{ prod.total_money }}</td>
+                        </tr>
+                    {% endfor %}
+                    <!-- Fila de resumen total por semana y resumen del mes -->
+                    <tr>
+                        <td colspan="2"><strong>Resumen por Semana</strong></td>
+                        {% for week_summary in summary_week_money %}
+                            <td><strong>{{ week_summary }}</strong></td>
+                        {% endfor %}
+                        <td><strong>{{ total_money_month }}</strong></td>
+                        <td><strong>{{ total_money }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script type="application/javascript">
+        $(function () {
+            $('#data').DataTable({
+                responsive: true,
+                autoWidth: false
+            });
+        });
+    </script>
+{% endblock %}

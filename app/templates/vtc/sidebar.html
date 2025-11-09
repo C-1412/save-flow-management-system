@@ -1,0 +1,56 @@
+{% load static %}
+{% load custom_filters %}
+<aside class="main-sidebar sidebar-light-primary elevation-4">
+    <div class="sidebar">
+        <div class="user-panel mt-3 pb-3 mb-3 ml-2 d-flex align-items-center">
+            <div class="image">
+                <i class="fas fa-user mr-2"></i>
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">{{ request.user.username }}</a>
+            </div>
+        </div>
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                <li class="nav-item">
+                    <a href="{% url 'erp:producto_list' %}" class="nav-link" data-toggle="tooltip" title="Producto">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>Productos</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'erp:flujo_list' %}" class="nav-link" data-toggle="tooltip" title="Flujo">
+                        <i class="nav-icon fas fa-random"></i>
+                        <p>Flujo</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="http://127.0.0.1:8000/erp/informe/tablas/" class="nav-link" data-toggle="tooltip" title="Tablas">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>Tablas</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'erp:informe_list' %}" class="nav-link" data-toggle="tooltip" title="Informe Mensual">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>Informe Mensual</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'user:user_list' %}" class="nav-link" data-toggle="tooltip" title="Usuarios">
+                        <i class="nav-icon fas fa-user-friends"></i>
+                        <p>Usuarios</p>
+                    </a>
+                </li>
+
+            </ul>   
+        </nav>
+
+    </div>
+</aside>
+
